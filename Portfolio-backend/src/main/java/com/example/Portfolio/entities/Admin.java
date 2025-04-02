@@ -24,6 +24,18 @@ public class Admin {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "is_enabled")
+    private boolean enabled = true;
+
+    @Column(name = "account_non_expired")
+    private boolean accountNonExpired = true;
+
+    @Column(name = "account_non_locked")
+    private boolean accountNonLocked = true;
+
+    @Column(name = "credentials_non_expired")
+    private boolean credentailsNonLocked = true;
+
     public Admin(String email, String username, String password) {
         this.email = email;
         this.username = username;
@@ -60,5 +72,37 @@ public class Admin {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isEnabled() {
+        return this.enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isAccountNonExpired() {
+        return this.accountNonExpired;
+    }
+
+    public void setAccountNonExpired(boolean accountNonExpired) {
+        this.accountNonExpired = accountNonExpired;
+    }
+
+    public boolean isAccountNonLocked() {
+        return this.accountNonLocked;
+    }
+
+    public void setAccountNonLocked(boolean accountNonLocked) {
+        this.accountNonLocked = accountNonLocked;
+    }
+
+    public boolean isCredentailsNonLocked() {
+        return this.credentailsNonLocked;
+    }
+
+    public void setCredentailsNonLocked(boolean credentailsNonLocked) {
+        this.credentailsNonLocked = credentailsNonLocked;
     }
 }

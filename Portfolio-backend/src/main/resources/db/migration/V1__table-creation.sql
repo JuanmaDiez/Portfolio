@@ -3,6 +3,10 @@ CREATE TABLE admins (
     username VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     password varchar(255) NOT NULL,
+    is_enabled TINYINT(1) NOT NULL,
+    account_non_expired TINYINT(1) NOT NULL,
+    account_non_locked TINYINT(1) NOT NULL,
+    credentials_non_expired TINYINT(1) NOT NULL,
     CONSTRAINT admins_pk PRIMARY KEY (id),
     CONSTRAINT admins_unique_em UNIQUE KEY (email),
     CONSTRAINT admins_unique_un UNIQUE KEY (username)

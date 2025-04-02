@@ -1,6 +1,6 @@
 package com.example.Portfolio.entities;
 
-import com.example.Portfolio.converters.JsonConverter;
+import com.example.Portfolio.utils.JsonConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -9,7 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-import java.util.List;
 import java.util.Set;
 
 @Table(name = "projects")
