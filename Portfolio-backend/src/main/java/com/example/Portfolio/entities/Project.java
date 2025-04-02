@@ -1,6 +1,8 @@
 package com.example.Portfolio.entities;
 
+import com.example.Portfolio.converters.JsonConverter;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,7 +29,8 @@ public class Project {
     @Column(name = "image")
     private String image;
 
-    @Column(name = "technologies")
+    @Convert(converter = JsonConverter.class)
+    @Column(name = "technologies", columnDefinition = "json")
     private Set<String> technologies;
 
     @Column(name = "personal")
