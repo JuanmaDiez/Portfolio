@@ -19,6 +19,7 @@ CREATE TABLE projects (
     image VARCHAR(255) NOT NULL,
     technologies JSON NOT NULL,
     personal TINYINT(1) NOT NULL,
+    created_at DATETIME NOT NULL,
     CONSTRAINT projects_pk PRIMARY KEY (id),
     CONSTRAINT projects_unique UNIQUE KEY (title)
 );

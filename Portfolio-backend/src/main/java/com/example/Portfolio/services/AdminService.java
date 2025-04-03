@@ -4,6 +4,7 @@ import ch.qos.logback.core.util.StringUtil;
 import com.example.Portfolio.dtos.AdminDTO;
 import com.example.Portfolio.entities.Admin;
 import com.example.Portfolio.repositories.AdminRepository;
+import com.example.Portfolio.utils.AdminUtil;
 import com.example.Portfolio.utils.ConstantUtil;
 import com.example.Portfolio.utils.ErrorMessageUtil;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -47,13 +48,11 @@ public class AdminService {
 
     public AdminDTO createAdmin(AdminDTO adminDTO) {
         if (
-                StringUtil.isNullOrEmpty(adminDTO.getEmail()) ||
-                StringUtil.isNullOrEmpty(adminDTO.getUsername()) ||
-                StringUtil.isNullOrEmpty(adminDTO.getPassword())
+               AdminUtil.checkAdminDTO(adminDTO)
         )
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessageUtil.INSUFFICIENT_DATA);
 
-        Admin admin = new Admin(adminDTO.getEmail(), adminDTO.getUsername(), adminDTO.getPassword());
+        Admin admin = new Admin(adminDTO);
 
         try {
             this.adminRepository.save(admin);
@@ -72,7 +71,12 @@ public class AdminService {
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, ErrorMessageUtil.ADMIN_NOT_FOUND)
         );
 
-        if (StringUtil.notNullNorEmpty(adminDTO.getEmail())) admin.setEmail(adminDTO.getEmail());
+        if (StringUtil.notNullNorEmpty(adminDTO.getEmail())) {
+            if (AdminUtil.checkEmail(adminDTO.getEmail()))
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessageUtil.INVALID_EMAIL);
+
+            admin.setEmail(adminDTO.getEmail());
+        }
         if (StringUtil.notNullNorEmpty(adminDTO.getUsername())) admin.setUsername(adminDTO.getUsername());
         if (StringUtil.notNullNorEmpty(adminDTO.getPassword())) admin.setPassword(adminDTO.getPassword());
 

@@ -1,5 +1,6 @@
 package com.example.Portfolio.entities;
 
+import com.example.Portfolio.dtos.AdminDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -37,6 +38,12 @@ public class Admin {
     private boolean credentailsNonLocked = true;
 
     public Admin() {}
+
+    public Admin(AdminDTO adminDTO) {
+        this.email = adminDTO.getEmail();
+        this.username = adminDTO.getUsername();
+        this.password = adminDTO.getPassword();
+    }
 
     public Admin(String email, String username, String password) {
         this.email = email;
