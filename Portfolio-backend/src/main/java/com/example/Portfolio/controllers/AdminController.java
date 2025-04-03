@@ -7,6 +7,7 @@ import com.example.Portfolio.services.AdminService;
 import com.example.Portfolio.utils.SuccessMessageUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,6 +60,14 @@ public class AdminController {
         ResponseDTO<Admin> response = new ResponseDTO<>();
         response.setMessage(SuccessMessageUtil.ADMIN_EDITED);
         response.setData(admin);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResponseDTO<String>> delete(@PathVariable Long id) {
+        this.adminService.deleteAdmin(id);
+        ResponseDTO<String> response = new ResponseDTO<>();
+        response.setMessage(SuccessMessageUtil.ADMIN_DELETED);
         return ResponseEntity.ok(response);
     }
 }

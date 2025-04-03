@@ -81,6 +81,8 @@ public class AdminService {
     }
 
     public void deleteAdmin(Long id) {
-        this.adminRepository.deleteById(id);
+        Admin admin = this.adminRepository.findById(id).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, ErrorMessageUtil.ADMIN_NOT_FOUND));
+        this.adminRepository.delete(admin);
     }
 }
