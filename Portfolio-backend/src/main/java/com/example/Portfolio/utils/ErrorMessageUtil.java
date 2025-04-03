@@ -1,6 +1,7 @@
 package com.example.Portfolio.utils;
 
 public class ErrorMessageUtil {
+    public static final String PATH_VARIABLE_ERROR = "The path variable's data type received is not supported";
     public static final String NO_ADMINS = "There are no admins available";
     public static final String ADMIN_NOT_FOUND = "No admin was found linked to the ID provided";
     public static final String INSUFFICIENT_DATA = "Insufficient data received to process request";

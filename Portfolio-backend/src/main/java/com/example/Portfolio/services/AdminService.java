@@ -9,9 +9,9 @@ import com.example.Portfolio.utils.ErrorMessageUtil;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,22 +22,30 @@ public class AdminService {
         this.adminRepository = adminRepository;
     }
 
-    public List<Admin> getAllAdmins() {
+    public List<AdminDTO> getAllAdmins() {
         List<Admin> admins = this.adminRepository.findAll();
 
         if (admins.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ErrorMessageUtil.NO_ADMINS);
 
-        return admins;
+        List<AdminDTO> adminDTOs = new ArrayList<>();
+
+        for (Admin admin : admins) {
+            AdminDTO adminDTO = new AdminDTO(admin);
+            adminDTOs.add(adminDTO);
+        }
+
+        return adminDTOs;
     }
 
-    public Admin getAdmin(Long id) {
-        return this.adminRepository.findById(id).orElseThrow(() ->
+    public AdminDTO getAdmin(Long id) {
+        Admin admin = this.adminRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND,
                         ErrorMessageUtil.ADMIN_NOT_FOUND));
+        return new AdminDTO(admin);
     }
 
-    public Admin createAdmin(AdminDTO adminDTO) {
+    public AdminDTO createAdmin(AdminDTO adminDTO) {
         if (
                 StringUtil.isNullOrEmpty(adminDTO.getEmail()) ||
                 StringUtil.isNullOrEmpty(adminDTO.getUsername()) ||
@@ -51,33 +59,33 @@ public class AdminService {
             this.adminRepository.save(admin);
         } catch (DataIntegrityViolationException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    e.getMessage().toLowerCase().contains(ConstantUtil.USERNAME) ?
-                            ErrorMessageUtil.USERNAME_ALREADY_EXISTS :
-                            ErrorMessageUtil.EMAIL_ALREADY_EXISTS);
+                    e.getMessage().toLowerCase().contains(ConstantUtil.EMAIL_UNIQUE_KEY) ?
+                            ErrorMessageUtil.EMAIL_ALREADY_EXISTS :
+                            ErrorMessageUtil.USERNAME_ALREADY_EXISTS);
         }
 
-        return admin;
+        return new AdminDTO(admin);
     }
 
-    public Admin editAdmin(AdminDTO adminDTO, Long id) {
+    public AdminDTO editAdmin(AdminDTO adminDTO, Long id) {
         Admin admin = this.adminRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, ErrorMessageUtil.ADMIN_NOT_FOUND)
         );
 
         if (StringUtil.notNullNorEmpty(adminDTO.getEmail())) admin.setEmail(adminDTO.getEmail());
         if (StringUtil.notNullNorEmpty(adminDTO.getUsername())) admin.setUsername(adminDTO.getUsername());
-        if (StringUtil.notNullNorEmpty(adminDTO.getPassword())) admin.setEmail(adminDTO.getPassword());
+        if (StringUtil.notNullNorEmpty(adminDTO.getPassword())) admin.setPassword(adminDTO.getPassword());
 
         try {
             this.adminRepository.save(admin);
         } catch (DataIntegrityViolationException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    e.getMessage().toLowerCase().contains(ConstantUtil.USERNAME) ?
-                            ErrorMessageUtil.USERNAME_ALREADY_EXISTS :
-                            ErrorMessageUtil.EMAIL_ALREADY_EXISTS);
+                    e.getMessage().toLowerCase().contains(ConstantUtil.EMAIL_UNIQUE_KEY) ?
+                            ErrorMessageUtil.EMAIL_ALREADY_EXISTS :
+                            ErrorMessageUtil.USERNAME_ALREADY_EXISTS);
         }
 
-        return admin;
+        return new AdminDTO(admin);
     }
 
     public void deleteAdmin(Long id) {

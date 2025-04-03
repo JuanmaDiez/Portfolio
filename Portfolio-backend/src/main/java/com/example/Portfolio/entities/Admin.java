@@ -36,6 +36,8 @@ public class Admin {
     @Column(name = "credentials_non_expired")
     private boolean credentailsNonLocked = true;
 
+    public Admin() {}
+
     public Admin(String email, String username, String password) {
         this.email = email;
         this.username = username;

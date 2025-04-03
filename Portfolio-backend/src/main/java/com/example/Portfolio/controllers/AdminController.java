@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -28,36 +29,36 @@ public class AdminController {
     }
 
     @GetMapping
-    public ResponseEntity<SuccessResponseDTO<List<Admin>>> get() {
-        List<Admin> admins = this.adminService.getAllAdmins();
-        SuccessResponseDTO<List<Admin>> response = new SuccessResponseDTO<>();
+    public ResponseEntity<SuccessResponseDTO<List<AdminDTO>>> get() {
+        List<AdminDTO> admins = this.adminService.getAllAdmins();
+        SuccessResponseDTO<List<AdminDTO>> response = new SuccessResponseDTO<>();
         response.setData(admins);
         response.setMessage(SuccessMessageUtil.SUCCESS);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SuccessResponseDTO<Admin>> index(@PathVariable Long id) {
-        Admin admin = this.adminService.getAdmin(id);
-        SuccessResponseDTO<Admin> response = new SuccessResponseDTO<>();
+    public ResponseEntity<SuccessResponseDTO<AdminDTO>> index(@PathVariable Long id) {
+        AdminDTO admin = this.adminService.getAdmin(id);
+        SuccessResponseDTO<AdminDTO> response = new SuccessResponseDTO<>();
         response.setData(admin);
         response.setMessage(SuccessMessageUtil.SUCCESS);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping
-    public ResponseEntity<SuccessResponseDTO<Admin>> store(@RequestBody AdminDTO adminDTO) {
-        Admin newAdmin = this.adminService.createAdmin(adminDTO);
-        SuccessResponseDTO<Admin> response = new SuccessResponseDTO<>();
+    public ResponseEntity<SuccessResponseDTO<AdminDTO>> store(@RequestBody AdminDTO adminDTO) {
+        AdminDTO newAdmin = this.adminService.createAdmin(adminDTO);
+        SuccessResponseDTO<AdminDTO> response = new SuccessResponseDTO<>();
         response.setMessage(SuccessMessageUtil.ADMIN_CREATED);
         response.setData(newAdmin);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<SuccessResponseDTO<Admin>> patch(@PathVariable Long id, @RequestBody AdminDTO adminDTO) {
-        Admin admin = this.adminService.editAdmin(adminDTO, id);
-        SuccessResponseDTO<Admin> response = new SuccessResponseDTO<>();
+    public ResponseEntity<SuccessResponseDTO<AdminDTO>> patch(@PathVariable Long id, @RequestBody AdminDTO adminDTO) {
+        AdminDTO admin = this.adminService.editAdmin(adminDTO, id);
+        SuccessResponseDTO<AdminDTO> response = new SuccessResponseDTO<>();
         response.setMessage(SuccessMessageUtil.ADMIN_EDITED);
         response.setData(admin);
         return ResponseEntity.ok(response);
