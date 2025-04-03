@@ -1,18 +1,18 @@
 package com.example.Portfolio.dtos;
 
-public class ResponseDTO<T> {
-    private String message;
+import java.time.LocalDateTime;
 
-    private T data;
+abstract class ResponseDTO {
+    private String message;
+    private LocalDateTime timestamp = LocalDateTime.now();
 
     public ResponseDTO() {}
 
-    public ResponseDTO(String message, T data) {
+    public ResponseDTO(String message) {
         this.message = message;
-        this.data = data;
     }
 
-    public String getMessage(String message) {
+    public String getMessage() {
         return this.message;
     }
 
@@ -20,11 +20,11 @@ public class ResponseDTO<T> {
         this.message = message;
     }
 
-    public T getData() {
-        return this.data;
+    public LocalDateTime getTimestamp() {
+        return this.timestamp;
     }
 
-    public void setData(T data) {
-        this.data = data;
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
     }
 }

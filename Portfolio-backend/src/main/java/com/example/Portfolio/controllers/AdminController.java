@@ -1,7 +1,7 @@
 package com.example.Portfolio.controllers;
 
 import com.example.Portfolio.dtos.AdminDTO;
-import com.example.Portfolio.dtos.ResponseDTO;
+import com.example.Portfolio.dtos.SuccessResponseDTO;
 import com.example.Portfolio.entities.Admin;
 import com.example.Portfolio.services.AdminService;
 import com.example.Portfolio.utils.SuccessMessageUtil;
@@ -28,45 +28,45 @@ public class AdminController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseDTO<List<Admin>>> get() {
+    public ResponseEntity<SuccessResponseDTO<List<Admin>>> get() {
         List<Admin> admins = this.adminService.getAllAdmins();
-        ResponseDTO<List<Admin>> response = new ResponseDTO<>();
+        SuccessResponseDTO<List<Admin>> response = new SuccessResponseDTO<>();
         response.setData(admins);
         response.setMessage(SuccessMessageUtil.SUCCESS);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDTO<Admin>> index(@PathVariable Long id) {
+    public ResponseEntity<SuccessResponseDTO<Admin>> index(@PathVariable Long id) {
         Admin admin = this.adminService.getAdmin(id);
-        ResponseDTO<Admin> response = new ResponseDTO<>();
+        SuccessResponseDTO<Admin> response = new SuccessResponseDTO<>();
         response.setData(admin);
         response.setMessage(SuccessMessageUtil.SUCCESS);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping
-    public ResponseEntity<ResponseDTO<Admin>> store(@RequestBody AdminDTO adminDTO) {
+    public ResponseEntity<SuccessResponseDTO<Admin>> store(@RequestBody AdminDTO adminDTO) {
         Admin newAdmin = this.adminService.createAdmin(adminDTO);
-        ResponseDTO<Admin> response = new ResponseDTO<>();
+        SuccessResponseDTO<Admin> response = new SuccessResponseDTO<>();
         response.setMessage(SuccessMessageUtil.ADMIN_CREATED);
         response.setData(newAdmin);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ResponseDTO<Admin>> patch(@PathVariable Long id, @RequestBody AdminDTO adminDTO) {
+    public ResponseEntity<SuccessResponseDTO<Admin>> patch(@PathVariable Long id, @RequestBody AdminDTO adminDTO) {
         Admin admin = this.adminService.editAdmin(adminDTO, id);
-        ResponseDTO<Admin> response = new ResponseDTO<>();
+        SuccessResponseDTO<Admin> response = new SuccessResponseDTO<>();
         response.setMessage(SuccessMessageUtil.ADMIN_EDITED);
         response.setData(admin);
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseDTO<String>> delete(@PathVariable Long id) {
+    public ResponseEntity<SuccessResponseDTO<String>> delete(@PathVariable Long id) {
         this.adminService.deleteAdmin(id);
-        ResponseDTO<String> response = new ResponseDTO<>();
+        SuccessResponseDTO<String> response = new SuccessResponseDTO<>();
         response.setMessage(SuccessMessageUtil.ADMIN_DELETED);
         return ResponseEntity.ok(response);
     }
