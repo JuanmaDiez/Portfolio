@@ -37,6 +37,12 @@ public class Project {
     @Column(name = "personal")
     private Boolean personal;
 
+    @Column(name = "site")
+    private String site;
+
+    @Column(name = "code")
+    private String code;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
@@ -50,12 +56,14 @@ public class Project {
         this.personal = projectDTO.isPersonal();
     }
 
-    public Project(String title, String description, String image, Set<String> technologies, boolean personal) {
+    public Project(String title, String description, String image, Set<String> technologies, Boolean personal, String site, String code) {
         this.title = title;
         this.description = description;
         this.image = image;
         this.technologies = technologies;
         this.personal = personal;
+        this.site = site;
+        this.code = code;
     }
 
     public Long getId() {
@@ -112,6 +120,22 @@ public class Project {
 
     public void setPersonal(Boolean personal) {
         this.personal = personal;
+    }
+
+    public String getSite() {
+        return this.site;
+    }
+
+    public void setSite(String site) {
+        this.site = site;
+    }
+
+    public String getCode() {
+        return this.code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public LocalDateTime getCreatedAt() {

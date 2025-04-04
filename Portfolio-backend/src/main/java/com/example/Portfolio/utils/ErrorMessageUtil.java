@@ -11,4 +11,5 @@ public class ErrorMessageUtil {
     public static final String NO_PROJECTS = "There are no projects available";
     public static final String PROJECT_NOT_FOUND = "No project was found linked to the project provided";
     public static final String TITLE_ALREADY_EXISTS = "The project title received is not available";
+    public static final String CODE_NOT_PERSONAL = "The code for the project is not public";
 }

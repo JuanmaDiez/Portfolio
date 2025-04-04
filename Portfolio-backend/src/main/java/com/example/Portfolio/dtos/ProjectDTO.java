@@ -12,6 +12,8 @@ public class ProjectDTO {
     private String image;
     private Set<String> technologies;
     private Boolean personal;
+    private String site;
+    private String code;
     private LocalDateTime createdAt;
 
     public ProjectDTO() {}
@@ -23,6 +25,8 @@ public class ProjectDTO {
         this.image = project.getImage();
         this.technologies = project.getTechnologies();
         this.personal = project.isPersonal();
+        this.site = project.getSite();
+        this.code = project.getCode();
         this.createdAt = project.getCreatedAt();
     }
 
@@ -72,6 +76,22 @@ public class ProjectDTO {
 
     public void setPersonal(boolean personal) {
         this.personal = personal;
+    }
+
+    public String getSite() {
+        return this.site;
+    }
+
+    public void setSite(String site) {
+        this.site = site;
+    }
+
+    public String getCode() {
+        return this.code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public LocalDateTime getCreatedAt() {

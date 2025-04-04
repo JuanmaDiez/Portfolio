@@ -85,6 +85,20 @@ public class ProjectService {
             isEdited = true;
         }
 
+        if (!StringUtil.isNullOrEmpty(projectDTO.getSite())) {
+            project.setSite(projectDTO.getSite());
+            isEdited = true;
+        }
+
+        if (!StringUtil.isNullOrEmpty(projectDTO.getCode())) {
+            if (!project.isPersonal().booleanValue())
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessageUtil.CODE_NOT_PERSONAL);
+
+            project.setCode(projectDTO.getCode());
+            isEdited = true;
+        }
+
+
         if (projectDTO.getTechnologies() != null && !projectDTO.getTechnologies().isEmpty())  {
             project.addTechnologies(projectDTO.getTechnologies());
             isEdited = true;

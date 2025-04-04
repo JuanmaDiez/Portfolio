@@ -8,6 +8,6 @@ public class ProjectUtil {
     public static boolean checkProductDTO(ProjectDTO projectDTO) {
         return StringUtil.isNullOrEmpty(projectDTO.getTitle()) || StringUtil.isNullOrEmpty(projectDTO.getDescription()) ||
                 StringUtil.isNullOrEmpty(projectDTO.getImage()) || projectDTO.getTechnologies() == null || projectDTO.getTechnologies().isEmpty() ||
-                projectDTO.isPersonal() == null;
+                projectDTO.isPersonal() == null || StringUtil.isNullOrEmpty(projectDTO.getSite());
     }
 }
