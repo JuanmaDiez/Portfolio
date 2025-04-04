@@ -60,7 +60,9 @@ public class AdminService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     e.getMessage().toLowerCase().contains(ConstantUtil.EMAIL_UNIQUE_KEY) ?
                             ErrorMessageUtil.EMAIL_ALREADY_EXISTS :
-                            ErrorMessageUtil.USERNAME_ALREADY_EXISTS);
+                            e.getMessage().toLowerCase().contains(ConstantUtil.USERNAME_UNIQUE_KEY) ?
+                            ErrorMessageUtil.USERNAME_ALREADY_EXISTS :
+                           ErrorMessageUtil.CONSTRAINT_ERROR);
         }
 
         return new AdminDTO(admin);

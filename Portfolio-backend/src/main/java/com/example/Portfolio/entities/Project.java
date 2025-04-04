@@ -54,6 +54,8 @@ public class Project {
         this.image = projectDTO.getImage();
         this.technologies = projectDTO.getTechnologies();
         this.personal = projectDTO.isPersonal();
+        this.site = projectDTO.getSite();
+        this.code = projectDTO.getCode();
     }
 
     public Project(String title, String description, String image, Set<String> technologies, Boolean personal, String site, String code) {

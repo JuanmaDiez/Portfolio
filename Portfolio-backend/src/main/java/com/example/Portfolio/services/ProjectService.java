@@ -53,7 +53,7 @@ public class ProjectService {
         try {
             this.projectRepository.save(project);
         } catch (DataIntegrityViolationException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessageUtil.TITLE_ALREADY_EXISTS);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage().contains("projects_unique") ? ErrorMessageUtil.TITLE_ALREADY_EXISTS : ErrorMessageUtil.CONSTRAINT_ERROR);
         }
 
         return new ProjectDTO(project);

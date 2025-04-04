@@ -12,4 +12,6 @@ public class ErrorMessageUtil {
     public static final String PROJECT_NOT_FOUND = "No project was found linked to the project provided";
     public static final String TITLE_ALREADY_EXISTS = "The project title received is not available";
     public static final String CODE_NOT_PERSONAL = "The code for the project is not public";
+    public static final String CONSTRAINT_ERROR = "There was an error with data received, try again or contact administrators";
+    public static final String TECHNOLOGIES_PARSE_ERROR = "Technologies weren't received in the appropiate format. Please, send them as an array";
 }
