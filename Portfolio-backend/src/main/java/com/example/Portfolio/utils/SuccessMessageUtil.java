@@ -8,4 +8,5 @@ public class SuccessMessageUtil {
     public static final String PROJECT_CREATED = "Project created successfully";
     public static final String PROJECT_EDITED = "Project edited successfully";
     public static final String PROJECT_DELETED = "Project deleted successfully";
+    public static final String LOGIN_SUCCESSFUL = "Admin logged in successfully";
 }

@@ -14,4 +14,9 @@ public class ErrorMessageUtil {
     public static final String CODE_NOT_PERSONAL = "The code for the project is not public";
     public static final String CONSTRAINT_ERROR = "There was an error with data received, try again or contact administrators";
     public static final String TECHNOLOGIES_PARSE_ERROR = "Technologies weren't received in the appropiate format. Please, send them as an array";
+    public static final String MALFORMED_TOKEN = "Token was expired or malformed";
+    public static final String EXPIRED_TOKEN = "Token expired";
+    public static final String UNSUPPORTED_TOKEN = "Token unsupported";
+    public static final String INVALID_TOKEN = "Token was invalid";
+    public static final String MISSING_TOKEN = "Token was not received";
 }

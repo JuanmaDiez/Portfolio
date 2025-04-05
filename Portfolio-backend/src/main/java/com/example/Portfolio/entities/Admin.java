@@ -35,7 +35,7 @@ public class Admin {
     private boolean accountNonLocked = true;
 
     @Column(name = "credentials_non_expired")
-    private boolean credentailsNonLocked = true;
+    private boolean credentialsNonLocked = true;
 
     public Admin() {}
 
@@ -107,11 +107,11 @@ public class Admin {
         this.accountNonLocked = accountNonLocked;
     }
 
-    public boolean isCredentailsNonLocked() {
-        return this.credentailsNonLocked;
+    public boolean isCredentialsNonLocked() {
+        return this.credentialsNonLocked;
     }
 
-    public void setCredentailsNonLocked(boolean credentailsNonLocked) {
-        this.credentailsNonLocked = credentailsNonLocked;
+    public void setCredentialsNonLocked(boolean credentialsNonLocked) {
+        this.credentialsNonLocked = credentialsNonLocked;
     }
 }

@@ -22,7 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         Admin admin = this.adminRepository.findAdminByUsernameOrEmail(usernameOrEmail).orElseThrow();
         return new User(admin.getEmail(), admin.getPassword(),
                 admin.isEnabled(), admin.isAccountNonExpired(),
-                admin.isAccountNonLocked(), admin.isCredentailsNonLocked(),
+                admin.isAccountNonLocked(), admin.isCredentialsNonLocked(),
                 new ArrayList<>());
     }
 }

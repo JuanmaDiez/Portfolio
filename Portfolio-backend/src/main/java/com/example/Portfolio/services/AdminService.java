@@ -9,6 +9,8 @@ import com.example.Portfolio.utils.ConstantUtil;
 import com.example.Portfolio.utils.ErrorMessageUtil;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -18,9 +20,11 @@ import java.util.List;
 @Service
 public class AdminService {
     private final AdminRepository adminRepository;
+    private final PasswordEncoder encoder;
 
-    public AdminService(AdminRepository adminRepository) {
+    public AdminService(AdminRepository adminRepository, PasswordEncoder encoder) {
         this.adminRepository = adminRepository;
+        this.encoder = encoder;
     }
 
     public List<AdminDTO> getAllAdmins() {
@@ -52,6 +56,7 @@ public class AdminService {
         )
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessageUtil.INSUFFICIENT_DATA);
 
+        adminDTO.setPassword(encoder.encode(adminDTO.getPassword()));
         Admin admin = new Admin(adminDTO);
 
         try {
@@ -88,7 +93,7 @@ public class AdminService {
         }
 
         if (StringUtil.notNullNorEmpty(adminDTO.getPassword())) {
-            admin.setPassword(adminDTO.getPassword());
+            admin.setPassword(encoder.encode(adminDTO.getPassword()));
             isEdited = true;
         }
 

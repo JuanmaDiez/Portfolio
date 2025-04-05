@@ -6,10 +6,13 @@ import com.example.Portfolio.utils.ErrorMessageUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.server.ResponseStatusException;
+
+import javax.naming.AuthenticationNotSupportedException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -42,5 +45,14 @@ public class GlobalExceptionHandler {
         errorResponse.setError(HttpStatus.BAD_REQUEST.name());
         errorResponse.setStatus(HttpStatus.BAD_REQUEST.value());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
+    @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
+    public ResponseEntity<ErrorResponseDTO> handleAuthenticationCredentialsNotFoundException(AuthenticationCredentialsNotFoundException e) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO();
+        errorResponse.setMessage(e.getMessage());
+        errorResponse.setError(HttpStatus.UNAUTHORIZED.name());
+        errorResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
 }
