@@ -1,8 +1,10 @@
 package com.example.Portfolio.dtos;
 
 import com.example.Portfolio.entities.Project;
+import com.example.Portfolio.entities.Technology;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 public class ProjectDTO {
@@ -10,7 +12,8 @@ public class ProjectDTO {
     private String title;
     private String description;
     private String image;
-    private Set<String> technologies;
+    private Set<Long> technologiesIds;
+    private Set<TechnologyDTO> technologies = new HashSet<>();
     private Boolean personal;
     private String site;
     private String code;
@@ -23,11 +26,13 @@ public class ProjectDTO {
         this.title = project.getTitle();
         this.description = project.getDescription();
         this.image = project.getImage();
-        this.technologies = project.getTechnologies();
         this.personal = project.isPersonal();
         this.site = project.getSite();
         this.code = project.getCode();
         this.createdAt = project.getCreatedAt();
+        for (Technology technology : project.getTechnologies()) {
+            this.technologies.add(new TechnologyDTO(technology));
+        }
     }
 
     public Long getId() {
@@ -62,11 +67,19 @@ public class ProjectDTO {
         this.image = image;
     }
 
-    public Set<String> getTechnologies() {
+    public Set<Long> getTechnologiesIds() {
+        return this.technologiesIds;
+    }
+
+    public void setTechnologiesIds(Set<Long> technologiesIds) {
+        this.technologiesIds = technologiesIds;
+    }
+
+    public Set<TechnologyDTO> getTechnologies() {
         return this.technologies;
     }
 
-    public void setTechnologies(Set<String> technologies) {
+    public void setTechnologies(Set<TechnologyDTO> technologies) {
         this.technologies = technologies;
     }
 

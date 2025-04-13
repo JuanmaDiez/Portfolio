@@ -1,9 +1,9 @@
 package com.example.Portfolio.components;
 
 import com.example.Portfolio.configurations.FilterExceptionHandler;
-import com.example.Portfolio.utils.AuthenticationUtil;
-import com.example.Portfolio.utils.ConstantUtil;
-import com.example.Portfolio.utils.ErrorMessageUtil;
+import com.example.Portfolio.utils.AuthenticationUtils;
+import com.example.Portfolio.utils.ConstantUtils;
+import com.example.Portfolio.utils.ErrorMessageUtils;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -34,10 +33,10 @@ public class JwtFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
-        String authHeader = httpRequest.getHeader(ConstantUtil.AUTHORIZATION_HEADER);
+        String authHeader = httpRequest.getHeader(ConstantUtils.AUTHORIZATION_HEADER);
 
-        if (AuthenticationUtil.checkAuthenticationHeader(authHeader)) {
-            FilterExceptionHandler.writeError((HttpServletResponse) servletResponse, ErrorMessageUtil.MISSING_TOKEN, HttpStatus.UNAUTHORIZED);
+        if (AuthenticationUtils.checkAuthenticationHeader(authHeader)) {
+            FilterExceptionHandler.writeError((HttpServletResponse) servletResponse, ErrorMessageUtils.MISSING_TOKEN, HttpStatus.UNAUTHORIZED);
             return;
         }
 
@@ -47,7 +46,7 @@ public class JwtFilter implements Filter {
             String username = this.jwtGenerator.extractUsername(token);
 
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                    new User(username, "", Collections.emptyList()), null
+                    new User(username, "", Collections.emptyList()), Collections.emptyList()
             );
 
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));

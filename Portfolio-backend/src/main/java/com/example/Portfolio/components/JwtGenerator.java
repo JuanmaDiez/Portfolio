@@ -2,7 +2,7 @@ package com.example.Portfolio.components;
 
 import com.example.Portfolio.configurations.FilterExceptionHandler;
 import com.example.Portfolio.configurations.JwtConfig;
-import com.example.Portfolio.utils.ErrorMessageUtil;
+import com.example.Portfolio.utils.ErrorMessageUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -10,9 +10,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -48,16 +46,16 @@ public class JwtGenerator {
         try {
             Jwts.parser().verifyWith(this.key).build().parse(token);
         } catch (MalformedJwtException | SecurityException e) {
-            FilterExceptionHandler.writeError(response, ErrorMessageUtil.MALFORMED_TOKEN, HttpStatus.UNAUTHORIZED);
+            FilterExceptionHandler.writeError(response, ErrorMessageUtils.MALFORMED_TOKEN, HttpStatus.UNAUTHORIZED);
             return false;
         } catch (ExpiredJwtException e) {
-            FilterExceptionHandler.writeError(response, ErrorMessageUtil.EXPIRED_TOKEN, HttpStatus.UNAUTHORIZED);
+            FilterExceptionHandler.writeError(response, ErrorMessageUtils.EXPIRED_TOKEN, HttpStatus.UNAUTHORIZED);
             return false;
         } catch (UnsupportedJwtException e) {
-            FilterExceptionHandler.writeError(response, ErrorMessageUtil.UNSUPPORTED_TOKEN, HttpStatus.UNAUTHORIZED);
+            FilterExceptionHandler.writeError(response, ErrorMessageUtils.UNSUPPORTED_TOKEN, HttpStatus.UNAUTHORIZED);
             return false;
         } catch (IllegalArgumentException e) {
-            FilterExceptionHandler.writeError(response, ErrorMessageUtil.INVALID_TOKEN, HttpStatus.UNAUTHORIZED);
+            FilterExceptionHandler.writeError(response, ErrorMessageUtils.INVALID_TOKEN, HttpStatus.UNAUTHORIZED);
             return false;
         }
 

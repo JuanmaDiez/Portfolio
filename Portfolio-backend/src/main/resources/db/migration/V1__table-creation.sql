@@ -14,14 +14,31 @@ CREATE TABLE admins (
 
 CREATE TABLE projects (
     id BIGINT AUTO_INCREMENT NOT NULL,
-    title VARCHAR(255) NOT NULL,
-    description TEXT NOT NULL,
+    titleEsp VARCHAR(255) NOT NULL,
+    titleEn VARCHAR(255) NOT NULL,
+    descriptionEsp TEXT NOT NULL,
+    descriptionEn TEXT NOT NULL,
     image VARCHAR(255) NOT NULL,
-    technologies JSON NOT NULL,
     personal TINYINT(1) NOT NULL,
     site VARCHAR(255) NOT NULL,
     code VARCHAR(255),
     created_at DATETIME NOT NULL,
     CONSTRAINT projects_pk PRIMARY KEY (id),
     CONSTRAINT projects_unique UNIQUE KEY (title)
+);
+
+CREATE TABLE technologies (
+    id BIGINT AUTO_INCREMENT NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    icon VARCHAR(255) NOT NULL,
+    CONSTRAINT technologies_pk PRIMARY KEY (id),
+    CONSTRAINT technologies_unique UNIQUE KEY (name)
+);
+
+CREATE TABLE project_technologies (
+    project_id BIGINT AUTO_INCREMENT NOT NULL,
+    technology_id BIGINT AUTO_INCREMENT NOT NULL,
+    CONSTRAINT project_technologies_pk PRIMARY KEY (project_id, technology_id),
+    CONSTRAINT project_technologies_projects_fk FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT project_technologies_technologies_fk FOREIGN KEY (technology_id) REFERENCES technologies(id) ON DELETE CASCADE ON UPDATE CASCADE,
 );

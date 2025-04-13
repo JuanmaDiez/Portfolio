@@ -2,9 +2,8 @@ package com.example.Portfolio.controllers;
 
 import com.example.Portfolio.dtos.AdminDTO;
 import com.example.Portfolio.dtos.SuccessResponseDTO;
-import com.example.Portfolio.entities.Admin;
 import com.example.Portfolio.services.AdminService;
-import com.example.Portfolio.utils.SuccessMessageUtil;
+import com.example.Portfolio.utils.SuccessMessageUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -33,7 +31,7 @@ public class AdminController {
         List<AdminDTO> admins = this.adminService.getAllAdmins();
         SuccessResponseDTO<List<AdminDTO>> response = new SuccessResponseDTO<>();
         response.setData(admins);
-        response.setMessage(SuccessMessageUtil.SUCCESS);
+        response.setMessage(SuccessMessageUtils.SUCCESS);
         return ResponseEntity.ok(response);
     }
 
@@ -42,7 +40,7 @@ public class AdminController {
         AdminDTO admin = this.adminService.getAdmin(id);
         SuccessResponseDTO<AdminDTO> response = new SuccessResponseDTO<>();
         response.setData(admin);
-        response.setMessage(SuccessMessageUtil.SUCCESS);
+        response.setMessage(SuccessMessageUtils.SUCCESS);
         return ResponseEntity.ok(response);
     }
 
@@ -50,7 +48,7 @@ public class AdminController {
     public ResponseEntity<SuccessResponseDTO<AdminDTO>> store(@RequestBody AdminDTO adminDTO) {
         AdminDTO newAdmin = this.adminService.createAdmin(adminDTO);
         SuccessResponseDTO<AdminDTO> response = new SuccessResponseDTO<>();
-        response.setMessage(SuccessMessageUtil.ADMIN_CREATED);
+        response.setMessage(SuccessMessageUtils.ADMIN_CREATED);
         response.setData(newAdmin);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -59,7 +57,7 @@ public class AdminController {
     public ResponseEntity<SuccessResponseDTO<AdminDTO>> patch(@PathVariable Long id, @RequestBody AdminDTO adminDTO) {
         AdminDTO admin = this.adminService.editAdmin(adminDTO, id);
         SuccessResponseDTO<AdminDTO> response = new SuccessResponseDTO<>();
-        response.setMessage(SuccessMessageUtil.ADMIN_EDITED);
+        response.setMessage(SuccessMessageUtils.ADMIN_EDITED);
         response.setData(admin);
         return ResponseEntity.ok(response);
     }
@@ -68,7 +66,7 @@ public class AdminController {
     public ResponseEntity<SuccessResponseDTO<String>> delete(@PathVariable Long id) {
         this.adminService.deleteAdmin(id);
         SuccessResponseDTO<String> response = new SuccessResponseDTO<>();
-        response.setMessage(SuccessMessageUtil.ADMIN_DELETED);
+        response.setMessage(SuccessMessageUtils.ADMIN_DELETED);
         return ResponseEntity.ok(response);
     }
 }

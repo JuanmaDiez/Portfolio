@@ -1,22 +1,20 @@
 package com.example.Portfolio.configurations;
 
 import com.example.Portfolio.dtos.ErrorResponseDTO;
-import com.example.Portfolio.utils.ConstantUtil;
+import com.example.Portfolio.utils.ConstantUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 public class FilterExceptionHandler {
     private static final ObjectMapper mapper = new ObjectMapper();
 
     public static void writeError(HttpServletResponse response, String message, HttpStatus status) throws IOException {
         response.setStatus(status.value());
-        response.setContentType(ConstantUtil.CONTENT_TYPE_APP_JSON);
+        response.setContentType(ConstantUtils.CONTENT_TYPE_APP_JSON);
         ErrorResponseDTO errorResponse = new ErrorResponseDTO();
         errorResponse.setMessage(message);
         errorResponse.setError(status.name());

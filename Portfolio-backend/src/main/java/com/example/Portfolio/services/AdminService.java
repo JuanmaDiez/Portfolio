@@ -4,12 +4,11 @@ import ch.qos.logback.core.util.StringUtil;
 import com.example.Portfolio.dtos.AdminDTO;
 import com.example.Portfolio.entities.Admin;
 import com.example.Portfolio.repositories.AdminRepository;
-import com.example.Portfolio.utils.AdminUtil;
-import com.example.Portfolio.utils.ConstantUtil;
-import com.example.Portfolio.utils.ErrorMessageUtil;
+import com.example.Portfolio.utils.AdminUtils;
+import com.example.Portfolio.utils.ConstantUtils;
+import com.example.Portfolio.utils.ErrorMessageUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -31,7 +30,7 @@ public class AdminService {
         List<Admin> admins = this.adminRepository.findAll();
 
         if (admins.isEmpty())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ErrorMessageUtil.NO_ADMINS);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ErrorMessageUtils.NO_ADMINS);
 
         List<AdminDTO> adminDTOs = new ArrayList<>();
 
@@ -46,15 +45,15 @@ public class AdminService {
     public AdminDTO getAdmin(Long id) {
         Admin admin = this.adminRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        ErrorMessageUtil.ADMIN_NOT_FOUND));
+                        ErrorMessageUtils.ADMIN_NOT_FOUND));
         return new AdminDTO(admin);
     }
 
     public AdminDTO createAdmin(AdminDTO adminDTO) {
         if (
-               AdminUtil.checkAdminDTO(adminDTO)
+               AdminUtils.checkAdminDTO(adminDTO)
         )
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessageUtil.INSUFFICIENT_DATA);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessageUtils.INSUFFICIENT_DATA);
 
         adminDTO.setPassword(encoder.encode(adminDTO.getPassword()));
         Admin admin = new Admin(adminDTO);
@@ -63,11 +62,11 @@ public class AdminService {
             this.adminRepository.save(admin);
         } catch (DataIntegrityViolationException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    e.getMessage().toLowerCase().contains(ConstantUtil.EMAIL_UNIQUE_KEY) ?
-                            ErrorMessageUtil.EMAIL_ALREADY_EXISTS :
-                            e.getMessage().toLowerCase().contains(ConstantUtil.USERNAME_UNIQUE_KEY) ?
-                            ErrorMessageUtil.USERNAME_ALREADY_EXISTS :
-                           ErrorMessageUtil.CONSTRAINT_ERROR);
+                    e.getMessage().toLowerCase().contains(ConstantUtils.EMAIL_UNIQUE_KEY) ?
+                            ErrorMessageUtils.EMAIL_ALREADY_EXISTS :
+                            e.getMessage().toLowerCase().contains(ConstantUtils.USERNAME_UNIQUE_KEY) ?
+                            ErrorMessageUtils.USERNAME_ALREADY_EXISTS :
+                           ErrorMessageUtils.CONSTRAINT_ERROR);
         }
 
         return new AdminDTO(admin);
@@ -75,13 +74,13 @@ public class AdminService {
 
     public AdminDTO editAdmin(AdminDTO adminDTO, Long id) {
         Admin admin = this.adminRepository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, ErrorMessageUtil.ADMIN_NOT_FOUND)
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, ErrorMessageUtils.ADMIN_NOT_FOUND)
         );
         boolean isEdited = false;
 
         if (StringUtil.notNullNorEmpty(adminDTO.getEmail())) {
-            if (AdminUtil.checkEmail(adminDTO.getEmail()))
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessageUtil.INVALID_EMAIL);
+            if (AdminUtils.checkEmail(adminDTO.getEmail()))
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessageUtils.INVALID_EMAIL);
 
             admin.setEmail(adminDTO.getEmail());
             isEdited = true;
@@ -102,9 +101,9 @@ public class AdminService {
                 this.adminRepository.save(admin);
             } catch (DataIntegrityViolationException e) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                        e.getMessage().toLowerCase().contains(ConstantUtil.EMAIL_UNIQUE_KEY) ?
-                                ErrorMessageUtil.EMAIL_ALREADY_EXISTS :
-                                ErrorMessageUtil.USERNAME_ALREADY_EXISTS);
+                        e.getMessage().toLowerCase().contains(ConstantUtils.EMAIL_UNIQUE_KEY) ?
+                                ErrorMessageUtils.EMAIL_ALREADY_EXISTS :
+                                ErrorMessageUtils.USERNAME_ALREADY_EXISTS);
             }
         }
 
@@ -113,7 +112,7 @@ public class AdminService {
 
     public void deleteAdmin(Long id) {
         Admin admin = this.adminRepository.findById(id).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, ErrorMessageUtil.ADMIN_NOT_FOUND));
+                new ResponseStatusException(HttpStatus.NOT_FOUND, ErrorMessageUtils.ADMIN_NOT_FOUND));
 
         this.adminRepository.delete(admin);
     }

@@ -19,6 +19,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -26,15 +32,29 @@ public class SecurityConfig {
     @Autowired
     private JwtFilter jwtFilter;
 
+    @Autowired
+    private CustomAuthenticationEntryPoint authenticationEntryPoint;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(http-> {
                        http.requestMatchers(HttpMethod.GET,"/projects").permitAll();
-                       http.requestMatchers(HttpMethod.GET, "/projects/*").permitAll();
+                       http.requestMatchers(HttpMethod.POST, "/admins").permitAll();
+                       http.requestMatchers(HttpMethod.POST, "/auth").permitAll();
+
+
+                       http.requestMatchers(HttpMethod.GET, "/admins").authenticated();
+                       http.requestMatchers(HttpMethod.PATCH, "/admins").authenticated();
+                       http.requestMatchers(HttpMethod.DELETE, "/admins").authenticated();
+                       http.requestMatchers(HttpMethod.POST, "/projects").authenticated();
+                       http.requestMatchers(HttpMethod.PATCH, "/projects").authenticated();
+                       http.requestMatchers(HttpMethod.PATCH, "/projects/removeTech").authenticated();
+                       http.requestMatchers(HttpMethod.DELETE, "/projects").authenticated();
                        http.anyRequest().authenticated();
-                }).addFilterBefore(this.jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                }).exceptionHandling(e -> e.authenticationEntryPoint(this.authenticationEntryPoint))
+                .addFilterBefore(this.jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
@@ -54,5 +74,19 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
+        configuration.setAllowedMethods(List.of(HttpMethod.GET.name(), HttpMethod.POST.name(),
+                HttpMethod.DELETE.name(), HttpMethod.PATCH.name()));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }

@@ -3,14 +3,14 @@ package com.example.Portfolio.utils;
 import ch.qos.logback.core.util.StringUtil;
 import com.example.Portfolio.dtos.AuthenticationDTO;
 
-public class AuthenticationUtil {
+public class AuthenticationUtils {
     public static boolean checkAuthenticationDTO(AuthenticationDTO authenticationDTO) {
         return StringUtil.isNullOrEmpty(authenticationDTO.getUsernameOrEmail()) ||
         StringUtil.isNullOrEmpty(authenticationDTO.getPassword());
     }
 
     public static boolean checkAuthenticationHeader(String authHeader) {
-        if (StringUtil.isNullOrEmpty(authHeader) || !authHeader.startsWith(ConstantUtil.BEARER))
+        if (StringUtil.isNullOrEmpty(authHeader) || !authHeader.startsWith(ConstantUtils.BEARER))
             return true;
 
         try {

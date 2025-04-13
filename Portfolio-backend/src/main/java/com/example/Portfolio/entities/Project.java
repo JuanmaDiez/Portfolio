@@ -1,13 +1,14 @@
 package com.example.Portfolio.entities;
 
 import com.example.Portfolio.dtos.ProjectDTO;
-import com.example.Portfolio.utils.JsonConverter;
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
@@ -30,10 +31,6 @@ public class Project {
     @Column(name = "image")
     private String image;
 
-    @Convert(converter = JsonConverter.class)
-    @Column(name = "technologies", columnDefinition = "json")
-    private Set<String> technologies;
-
     @Column(name = "personal")
     private Boolean personal;
 
@@ -46,19 +43,26 @@ public class Project {
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @ManyToMany
+    @JoinTable(
+            name = "project_technologies",
+            joinColumns =  @JoinColumn(name = "project_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private Set<Technology> technologies;
+
     public Project() {}
 
     public Project(ProjectDTO projectDTO) {
         this.title = projectDTO.getTitle();
         this.description = projectDTO.getDescription();
         this.image = projectDTO.getImage();
-        this.technologies = projectDTO.getTechnologies();
         this.personal = projectDTO.isPersonal();
         this.site = projectDTO.getSite();
         this.code = projectDTO.getCode();
     }
 
-    public Project(String title, String description, String image, Set<String> technologies, Boolean personal, String site, String code) {
+    public Project(String title, String description, String image, Set<Technology> technologies, Boolean personal, String site, String code) {
         this.title = title;
         this.description = description;
         this.image = image;
@@ -100,19 +104,19 @@ public class Project {
         this.image = image;
     }
 
-    public Set<String> getTechnologies() {
+    public Set<Technology> getTechnologies() {
         return this.technologies;
     }
 
-    public void setTechnologies(Set<String> technologies) {
+    public void setTechnologies(Set<Technology> technologies) {
         this.technologies = technologies;
     }
 
-    public void addTechnologies(Set<String> technologies) {
+    public void addTechnologies(Set<Technology> technologies) {
         this.technologies.addAll(technologies);
     }
 
-    public void removeTechnologies(Set<String> technologies) {
+    public void removeTechnologies(Set<Technology> technologies) {
         this.technologies.removeAll(technologies);
     }
 

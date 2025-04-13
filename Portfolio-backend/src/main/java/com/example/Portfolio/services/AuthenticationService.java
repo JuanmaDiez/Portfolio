@@ -2,11 +2,11 @@ package com.example.Portfolio.services;
 
 import com.example.Portfolio.components.JwtGenerator;
 import com.example.Portfolio.dtos.AuthenticationDTO;
-import com.example.Portfolio.utils.AuthenticationUtil;
-import com.example.Portfolio.utils.ErrorMessageUtil;
-import org.flywaydb.core.internal.util.AbbreviationUtils;
+import com.example.Portfolio.utils.AuthenticationUtils;
+import com.example.Portfolio.utils.ErrorMessageUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -23,12 +23,16 @@ public class AuthenticationService {
     }
 
     public String generateToken(AuthenticationDTO authenticationDTO) {
-        if (AuthenticationUtil.checkAuthenticationDTO(authenticationDTO))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessageUtil.INSUFFICIENT_DATA);
+        if (AuthenticationUtils.checkAuthenticationDTO(authenticationDTO))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessageUtils.INSUFFICIENT_DATA);
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(authenticationDTO.getUsernameOrEmail(), authenticationDTO.getPassword())
-        );
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(authenticationDTO.getUsernameOrEmail(), authenticationDTO.getPassword())
+            );
+        } catch (BadCredentialsException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, ErrorMessageUtils.BAD_CREDENTIALS);
+        }
 
         return jwtGenerator.generateToken(authenticationDTO.getUsernameOrEmail());
     }
