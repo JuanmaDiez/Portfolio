@@ -24,7 +24,8 @@ CREATE TABLE projects (
     code VARCHAR(255),
     created_at DATETIME NOT NULL,
     CONSTRAINT projects_pk PRIMARY KEY (id),
-    CONSTRAINT projects_unique UNIQUE KEY (title)
+    CONSTRAINT projects_unique_esp UNIQUE KEY (titleEsp),
+    CONSTRAINT projects_unique_en UNIQUE KEY (titleEn)
 );
 
 CREATE TABLE technologies (
@@ -36,9 +37,9 @@ CREATE TABLE technologies (
 );
 
 CREATE TABLE project_technologies (
-    project_id BIGINT AUTO_INCREMENT NOT NULL,
-    technology_id BIGINT AUTO_INCREMENT NOT NULL,
+    project_id BIGINT NOT NULL,
+    technology_id BIGINT NOT NULL,
     CONSTRAINT project_technologies_pk PRIMARY KEY (project_id, technology_id),
     CONSTRAINT project_technologies_projects_fk FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT project_technologies_technologies_fk FOREIGN KEY (technology_id) REFERENCES technologies(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT project_technologies_technologies_fk FOREIGN KEY (technology_id) REFERENCES technologies(id) ON DELETE CASCADE ON UPDATE CASCADE
 );

@@ -68,7 +68,8 @@ public class ProjectService {
         try {
             this.projectRepository.save(project);
         } catch (DataIntegrityViolationException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage().toLowerCase().contains(ConstantUtils.PROJECT_UNIQUE_KEY)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage().toLowerCase().contains(ConstantUtils.PROJECT_UNIQUE_KEY_ESP) ||
+                    e.getMessage().toLowerCase().contains(ConstantUtils.PROJECT_UNIQUE_KEY_EN)
                     ? ErrorMessageUtils.TITLE_ALREADY_EXISTS : ErrorMessageUtils.CONSTRAINT_ERROR);
         }
 
