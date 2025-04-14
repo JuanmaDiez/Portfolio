@@ -36,7 +36,7 @@ public class JwtFilter implements Filter {
         String authHeader = httpRequest.getHeader(ConstantUtils.AUTHORIZATION_HEADER);
 
         if (AuthenticationUtils.checkAuthenticationHeader(authHeader)) {
-            FilterExceptionHandler.writeError((HttpServletResponse) servletResponse, ErrorMessageUtils.MISSING_TOKEN, HttpStatus.UNAUTHORIZED);
+            filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
 
@@ -46,7 +46,7 @@ public class JwtFilter implements Filter {
             String username = this.jwtGenerator.extractUsername(token);
 
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                    new User(username, "", Collections.emptyList()), Collections.emptyList()
+                    new User(username, "", Collections.emptyList()), null, Collections.emptyList()
             );
 
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));

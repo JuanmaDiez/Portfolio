@@ -8,6 +8,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.lang.Collections;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,8 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class JwtGenerator {
@@ -29,17 +32,19 @@ public class JwtGenerator {
     }
 
     public String generateToken(String username) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("username", username);
         return Jwts.builder()
                 .issuedAt(new Date())
                 .expiration(Date.from(LocalDateTime.now().plusMinutes(15L).atZone(ZoneId.systemDefault()).toInstant()))
-                .claim("username", username)
+                .claims(claims)
                 .signWith(this.key)
                 .compact();
     }
 
     public String extractUsername(String token) {
         Claims claims = this.getClaims(token);
-        return claims.getSubject();
+        return (String) claims.get("username");
     }
 
     public boolean validateToken(String token, HttpServletResponse response) throws IOException {

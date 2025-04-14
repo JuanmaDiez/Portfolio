@@ -82,13 +82,23 @@ public class ProjectService {
 
         boolean isEdited = false;
 
-        if (!StringUtil.isNullOrEmpty(projectDTO.getTitle())) {
-            project.setTitle(projectDTO.getTitle());
+        if (!StringUtil.isNullOrEmpty(projectDTO.getTitleEsp())) {
+            project.setTitleEsp(projectDTO.getTitleEsp());
             isEdited = true;
         }
 
-        if (!StringUtil.isNullOrEmpty(projectDTO.getDescription())) {
-            project.setDescription(projectDTO.getDescription());
+        if (!StringUtil.isNullOrEmpty(projectDTO.getTitleEn())) {
+            project.setTitleEn(projectDTO.getTitleEn());
+            isEdited = true;
+        }
+
+        if (!StringUtil.isNullOrEmpty(projectDTO.getDescriptionEsp())) {
+            project.setDescriptionEsp(projectDTO.getDescriptionEsp());
+            isEdited = true;
+        }
+
+        if (!StringUtil.isNullOrEmpty(projectDTO.getDescriptionEn())) {
+            project.setDescriptionEn(projectDTO.getDescriptionEn());
             isEdited = true;
         }
 

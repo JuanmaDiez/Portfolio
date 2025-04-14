@@ -14,18 +14,18 @@ CREATE TABLE admins (
 
 CREATE TABLE projects (
     id BIGINT AUTO_INCREMENT NOT NULL,
-    titleEsp VARCHAR(255) NOT NULL,
-    titleEn VARCHAR(255) NOT NULL,
-    descriptionEsp TEXT NOT NULL,
-    descriptionEn TEXT NOT NULL,
+    title_esp VARCHAR(255) NOT NULL,
+    title_en VARCHAR(255) NOT NULL,
+    description_esp TEXT NOT NULL,
+    description_en TEXT NOT NULL,
     image VARCHAR(255) NOT NULL,
     personal TINYINT(1) NOT NULL,
     site VARCHAR(255) NOT NULL,
     code VARCHAR(255),
     created_at DATETIME NOT NULL,
     CONSTRAINT projects_pk PRIMARY KEY (id),
-    CONSTRAINT projects_unique_esp UNIQUE KEY (titleEsp),
-    CONSTRAINT projects_unique_en UNIQUE KEY (titleEn)
+    CONSTRAINT projects_unique_esp UNIQUE KEY (title_esp),
+    CONSTRAINT projects_unique_en UNIQUE KEY (title_en)
 );
 
 CREATE TABLE technologies (

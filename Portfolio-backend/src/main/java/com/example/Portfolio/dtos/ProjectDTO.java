@@ -9,8 +9,10 @@ import java.util.Set;
 
 public class ProjectDTO {
     private Long id;
-    private String title;
-    private String description;
+    private String titleEsp;
+    private String titleEn;
+    private String descriptionEsp;
+    private String descriptionEn;
     private String image;
     private Set<Long> technologiesIds;
     private Set<TechnologyDTO> technologies = new HashSet<>();
@@ -23,8 +25,10 @@ public class ProjectDTO {
 
     public ProjectDTO(Project project) {
         this.id = project.getId();
-        this.title = project.getTitle();
-        this.description = project.getDescription();
+        this.titleEsp = project.getTitleEsp();
+        this.titleEn = project.getTitleEn();
+        this.descriptionEsp = project.getDescriptionEsp();
+        this.descriptionEn = project.getDescriptionEn();
         this.image = project.getImage();
         this.personal = project.isPersonal();
         this.site = project.getSite();
@@ -43,20 +47,36 @@ public class ProjectDTO {
         this.id = id;
     }
 
-    public String getTitle() {
-        return this.title;
+    public String getTitleEsp() {
+        return this.titleEsp;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTitleEsp(String titleEsp) {
+        this.titleEsp = titleEsp;
     }
 
-    public String getDescription() {
-        return this.description;
+    public String getTitleEn() {
+        return this.titleEn;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setTitleEn(String titleEn) {
+        this.titleEn = titleEn;
+    }
+
+    public String getDescriptionEsp() {
+        return this.descriptionEsp;
+    }
+
+    public void setDescriptionEsp(String descriptionEsp) {
+        this.descriptionEsp = descriptionEsp;
+    }
+
+    public String getDescriptionEn() {
+        return this.descriptionEn;
+    }
+
+    public void setDescriptionEn(String descriptionEn) {
+        this.descriptionEn = descriptionEn;
     }
 
     public String getImage() {

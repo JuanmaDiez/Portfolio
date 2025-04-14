@@ -41,17 +41,23 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(http-> {
                        http.requestMatchers(HttpMethod.GET,"/projects").permitAll();
+                       http.requestMatchers(HttpMethod.GET,"/projects/*").permitAll();
                        http.requestMatchers(HttpMethod.POST, "/admins").permitAll();
                        http.requestMatchers(HttpMethod.POST, "/auth").permitAll();
+                       http.requestMatchers( "/error").permitAll();
 
 
                        http.requestMatchers(HttpMethod.GET, "/admins").authenticated();
-                       http.requestMatchers(HttpMethod.PATCH, "/admins").authenticated();
-                       http.requestMatchers(HttpMethod.DELETE, "/admins").authenticated();
+                       http.requestMatchers(HttpMethod.PATCH, "/admins/*").authenticated();
+                       http.requestMatchers(HttpMethod.DELETE, "/admins/*").authenticated();
                        http.requestMatchers(HttpMethod.POST, "/projects").authenticated();
-                       http.requestMatchers(HttpMethod.PATCH, "/projects").authenticated();
-                       http.requestMatchers(HttpMethod.PATCH, "/projects/removeTech").authenticated();
-                       http.requestMatchers(HttpMethod.DELETE, "/projects").authenticated();
+                       http.requestMatchers(HttpMethod.PATCH, "/projects/*").authenticated();
+                       http.requestMatchers(HttpMethod.PATCH, "/projects/removeTech/*").authenticated();
+                       http.requestMatchers(HttpMethod.DELETE, "/projects/*").authenticated();
+                       http.requestMatchers(HttpMethod.GET, "/technologies").authenticated();
+                       http.requestMatchers(HttpMethod.POST, "/technologies").authenticated();
+                       http.requestMatchers(HttpMethod.PATCH, "/technologies/*").authenticated();
+                       http.requestMatchers(HttpMethod.DELETE, "/technologies/*").authenticated();
                        http.anyRequest().authenticated();
                 }).exceptionHandling(e -> e.authenticationEntryPoint(this.authenticationEntryPoint))
                 .addFilterBefore(this.jwtFilter, UsernamePasswordAuthenticationFilter.class)

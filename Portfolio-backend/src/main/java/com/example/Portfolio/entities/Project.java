@@ -12,6 +12,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Table(name = "projects")
@@ -22,11 +23,17 @@ public class Project {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "title")
-    private String title;
+    @Column(name = "title_esp")
+    private String titleEsp;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "title_en")
+    private String titleEn;
+
+    @Column(name = "description_esp")
+    private String descriptionEsp;
+
+    @Column(name = "description_en")
+    private String descriptionEn;
 
     @Column(name = "image")
     private String image;
@@ -47,24 +54,28 @@ public class Project {
     @JoinTable(
             name = "project_technologies",
             joinColumns =  @JoinColumn(name = "project_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
+            inverseJoinColumns = @JoinColumn(name = "technology_id")
     )
-    private Set<Technology> technologies;
+    private Set<Technology> technologies = new HashSet<>();
 
     public Project() {}
 
     public Project(ProjectDTO projectDTO) {
-        this.title = projectDTO.getTitle();
-        this.description = projectDTO.getDescription();
+        this.titleEsp = projectDTO.getTitleEsp();
+        this.titleEn = projectDTO.getTitleEn();
+        this.descriptionEsp = projectDTO.getDescriptionEsp();
+        this.descriptionEn = projectDTO.getDescriptionEn();
         this.image = projectDTO.getImage();
         this.personal = projectDTO.isPersonal();
         this.site = projectDTO.getSite();
         this.code = projectDTO.getCode();
     }
 
-    public Project(String title, String description, String image, Set<Technology> technologies, Boolean personal, String site, String code) {
-        this.title = title;
-        this.description = description;
+    public Project(String titleEsp, String titleEn, String descriptionEsp, String descriptionEn, String image, Set<Technology> technologies, Boolean personal, String site, String code) {
+        this.titleEsp = titleEsp;
+        this.titleEn = titleEn;
+        this.descriptionEsp = descriptionEsp;
+        this.descriptionEn = descriptionEn;
         this.image = image;
         this.technologies = technologies;
         this.personal = personal;
@@ -80,21 +91,38 @@ public class Project {
         this.id = id;
     }
 
-    public String getTitle() {
-        return this.title;
+    public String getTitleEsp() {
+        return this.titleEsp;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTitleEsp(String titleEsp) {
+        this.titleEsp = titleEsp;
     }
 
-    public String getDescription() {
-        return this.description;
+    public String getTitleEn() {
+        return this.titleEn;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setTitleEn(String titleEn) {
+        this.titleEn = titleEn;
     }
+
+    public String getDescriptionEsp() {
+        return this.descriptionEsp;
+    }
+
+    public void setDescriptionEsp(String descriptionEsp) {
+        this.descriptionEsp = descriptionEsp;
+    }
+
+    public String getDescriptionEn() {
+        return this.descriptionEn;
+    }
+
+    public void setDescriptionEn(String descriptionEn) {
+        this.descriptionEn = descriptionEn;
+    }
+
 
     public String getImage() {
         return this.image;
