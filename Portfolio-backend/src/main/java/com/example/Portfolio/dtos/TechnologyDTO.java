@@ -1,10 +1,16 @@
 package com.example.Portfolio.dtos;
 
 import com.example.Portfolio.entities.Technology;
+import com.example.Portfolio.utils.ErrorMessageUtils;
+import jakarta.validation.constraints.NotEmpty;
 
 public class TechnologyDTO {
     private Long id;
+
+    @NotEmpty(message = ErrorMessageUtils.NOT_EMPTY)
     private String name;
+
+    @NotEmpty(message = ErrorMessageUtils.NOT_EMPTY)
     private String icon;
 
     public TechnologyDTO() {}

@@ -4,6 +4,7 @@ import com.example.Portfolio.dtos.AdminDTO;
 import com.example.Portfolio.dtos.SuccessResponseDTO;
 import com.example.Portfolio.services.AdminService;
 import com.example.Portfolio.utils.SuccessMessageUtils;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,7 +46,7 @@ public class AdminController {
     }
 
     @PostMapping
-    public ResponseEntity<SuccessResponseDTO<AdminDTO>> store(@RequestBody AdminDTO adminDTO) {
+    public ResponseEntity<SuccessResponseDTO<AdminDTO>> store(@RequestBody @Valid AdminDTO adminDTO) {
         AdminDTO newAdmin = this.adminService.createAdmin(adminDTO);
         SuccessResponseDTO<AdminDTO> response = new SuccessResponseDTO<>();
         response.setMessage(SuccessMessageUtils.ADMIN_CREATED);

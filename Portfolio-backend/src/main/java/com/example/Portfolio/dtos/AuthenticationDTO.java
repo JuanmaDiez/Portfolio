@@ -1,7 +1,13 @@
 package com.example.Portfolio.dtos;
 
+import com.example.Portfolio.utils.ErrorMessageUtils;
+import jakarta.validation.constraints.NotEmpty;
+
 public class AuthenticationDTO {
+    @NotEmpty(message = ErrorMessageUtils.NOT_EMPTY)
     private String usernameOrEmail;
+
+    @NotEmpty(message = ErrorMessageUtils.NOT_EMPTY)
     private String password;
 
     public AuthenticationDTO() {}

@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -28,6 +29,19 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponseDTO> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
         ErrorResponseDTO errorResponse = new ErrorResponseDTO();
         errorResponse.setMessage(ErrorMessageUtils.PATH_VARIABLE_ERROR);
+        errorResponse.setError(HttpStatus.BAD_REQUEST.name());
+        errorResponse.setStatus(HttpStatus.BAD_REQUEST.value());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponseDTO> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO();
+        StringBuilder message = new StringBuilder();
+        e.getBindingResult().getFieldErrors().forEach(field -> {
+            message.append(field.getField()).append(": ").append(field.getDefaultMessage()).append(" ").append(System.lineSeparator());
+        });
+        errorResponse.setMessage(message.toString());
         errorResponse.setError(HttpStatus.BAD_REQUEST.name());
         errorResponse.setStatus(HttpStatus.BAD_REQUEST.value());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);

@@ -8,7 +8,6 @@ import com.example.Portfolio.repositories.ProjectRepository;
 import com.example.Portfolio.repositories.TechnologyRepository;
 import com.example.Portfolio.utils.ConstantUtils;
 import com.example.Portfolio.utils.ErrorMessageUtils;
-import com.example.Portfolio.utils.ProjectUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -52,9 +51,6 @@ public class ProjectService {
     }
 
     public ProjectDTO createProject(ProjectDTO projectDTO) {
-        if (ProjectUtils.checkProductDTO(projectDTO))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessageUtils.INSUFFICIENT_DATA);
-
         Project project = new Project(projectDTO);
 
         Set<Technology> technologies = new HashSet<>();
@@ -152,8 +148,8 @@ public class ProjectService {
         Project project = this.projectRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, ErrorMessageUtils.PROJECT_NOT_FOUND));
 
-        if (projectDTO.getTechnologies() == null || projectDTO.getTechnologies().isEmpty())
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessageUtils.INSUFFICIENT_DATA);
+        if (projectDTO.getTechnologiesIds() == null || projectDTO.getTechnologies().isEmpty())
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessageUtils.EMPTY_TECHNOLOGIES);
 
         Set<Technology> technologies = new HashSet<>();
         projectDTO.getTechnologiesIds().forEach(technologyId ->

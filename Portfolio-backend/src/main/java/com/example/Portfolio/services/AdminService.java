@@ -50,11 +50,6 @@ public class AdminService {
     }
 
     public AdminDTO createAdmin(AdminDTO adminDTO) {
-        if (
-               AdminUtils.checkAdminDTO(adminDTO)
-        )
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessageUtils.INSUFFICIENT_DATA);
-
         adminDTO.setPassword(encoder.encode(adminDTO.getPassword()));
         Admin admin = new Admin(adminDTO);
 

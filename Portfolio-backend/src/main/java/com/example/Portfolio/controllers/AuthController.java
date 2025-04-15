@@ -4,6 +4,7 @@ import com.example.Portfolio.dtos.AuthenticationDTO;
 import com.example.Portfolio.dtos.SuccessResponseDTO;
 import com.example.Portfolio.services.AuthenticationService;
 import com.example.Portfolio.utils.SuccessMessageUtils;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +21,7 @@ public class AuthController {
     }
 
     @PostMapping
-    public ResponseEntity<SuccessResponseDTO<String>> login(@RequestBody AuthenticationDTO authenticationDTO) {
+    public ResponseEntity<SuccessResponseDTO<String>> login(@RequestBody @Valid AuthenticationDTO authenticationDTO) {
         String token = this.authenticationService.generateToken(authenticationDTO);
         SuccessResponseDTO<String> response = new SuccessResponseDTO<>();
         response.setMessage(SuccessMessageUtils.LOGIN_SUCCESSFUL);

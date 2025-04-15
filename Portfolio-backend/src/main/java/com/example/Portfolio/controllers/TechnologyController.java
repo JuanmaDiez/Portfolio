@@ -4,6 +4,7 @@ import com.example.Portfolio.dtos.SuccessResponseDTO;
 import com.example.Portfolio.dtos.TechnologyDTO;
 import com.example.Portfolio.services.TechnologyService;
 import com.example.Portfolio.utils.SuccessMessageUtils;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,7 +46,7 @@ public class TechnologyController {
     }
 
     @PostMapping
-    public ResponseEntity<SuccessResponseDTO<TechnologyDTO>> store(@RequestBody TechnologyDTO technologyDTO) {
+    public ResponseEntity<SuccessResponseDTO<TechnologyDTO>> store(@RequestBody @Valid TechnologyDTO technologyDTO) {
         TechnologyDTO technology = this.technologyService.createTechnology(technologyDTO);
         SuccessResponseDTO<TechnologyDTO> response = new SuccessResponseDTO<>();
         response.setMessage(SuccessMessageUtils.TECHNOLOGY_CREATED);

@@ -4,6 +4,7 @@ import com.example.Portfolio.dtos.ProjectDTO;
 import com.example.Portfolio.dtos.SuccessResponseDTO;
 import com.example.Portfolio.services.ProjectService;
 import com.example.Portfolio.utils.SuccessMessageUtils;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,7 +46,7 @@ public class ProjectController {
     }
 
     @PostMapping
-    public ResponseEntity<SuccessResponseDTO<ProjectDTO>> store(@RequestBody ProjectDTO projectDTO) {
+    public ResponseEntity<SuccessResponseDTO<ProjectDTO>> store(@RequestBody @Valid ProjectDTO projectDTO) {
         ProjectDTO newProject = this.projectService.createProject(projectDTO);
         SuccessResponseDTO<ProjectDTO> response = new SuccessResponseDTO<>();
         response.setMessage(SuccessMessageUtils.PROJECT_CREATED);

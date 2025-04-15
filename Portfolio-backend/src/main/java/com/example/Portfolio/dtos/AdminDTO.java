@@ -1,14 +1,21 @@
 package com.example.Portfolio.dtos;
 
 import com.example.Portfolio.entities.Admin;
+import com.example.Portfolio.utils.ErrorMessageUtils;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 
 public class AdminDTO {
     private Long id;
 
+    @Email(message = ErrorMessageUtils.INVALID_EMAIL)
+    @NotEmpty(message = ErrorMessageUtils.NOT_EMPTY)
     private String email;
 
+    @NotEmpty(message = ErrorMessageUtils.NOT_EMPTY)
     private String username;
 
+    @NotEmpty(message = ErrorMessageUtils.NOT_EMPTY)
     private String password;
 
     public AdminDTO() {}

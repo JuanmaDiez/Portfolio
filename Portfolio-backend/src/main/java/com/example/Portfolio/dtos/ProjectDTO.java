@@ -2,6 +2,8 @@ package com.example.Portfolio.dtos;
 
 import com.example.Portfolio.entities.Project;
 import com.example.Portfolio.entities.Technology;
+import com.example.Portfolio.utils.ErrorMessageUtils;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -9,16 +11,34 @@ import java.util.Set;
 
 public class ProjectDTO {
     private Long id;
+
+    @NotEmpty(message = ErrorMessageUtils.NOT_EMPTY)
     private String titleEsp;
+
+    @NotEmpty(message = ErrorMessageUtils.NOT_EMPTY)
     private String titleEn;
+
+    @NotEmpty(message = ErrorMessageUtils.NOT_EMPTY)
     private String descriptionEsp;
+
+    @NotEmpty(message = ErrorMessageUtils.NOT_EMPTY)
     private String descriptionEn;
+
+    @NotEmpty(message = ErrorMessageUtils.NOT_EMPTY)
     private String image;
+
     private Set<Long> technologiesIds;
+
     private Set<TechnologyDTO> technologies = new HashSet<>();
+
+    @NotEmpty(message = ErrorMessageUtils.NOT_EMPTY)
     private Boolean personal;
+
+    @NotEmpty(message = ErrorMessageUtils.NOT_EMPTY)
     private String site;
+
     private String code;
+
     private LocalDateTime createdAt;
 
     public ProjectDTO() {}

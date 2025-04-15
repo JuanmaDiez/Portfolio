@@ -23,9 +23,6 @@ public class AuthenticationService {
     }
 
     public String generateToken(AuthenticationDTO authenticationDTO) {
-        if (AuthenticationUtils.checkAuthenticationDTO(authenticationDTO))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ErrorMessageUtils.INSUFFICIENT_DATA);
-
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authenticationDTO.getUsernameOrEmail(), authenticationDTO.getPassword())
