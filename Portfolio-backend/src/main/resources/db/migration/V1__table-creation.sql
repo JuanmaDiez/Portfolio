@@ -1,45 +1,37 @@
 CREATE TABLE admins (
-    id BIGINT AUTO_INCREMENT NOT NULL,
-    username VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    password varchar(255) NOT NULL,
-    is_enabled TINYINT(1) NOT NULL,
-    account_non_expired TINYINT(1) NOT NULL,
-    account_non_locked TINYINT(1) NOT NULL,
-    credentials_non_expired TINYINT(1) NOT NULL,
-    CONSTRAINT admins_pk PRIMARY KEY (id),
-    CONSTRAINT admins_unique_em UNIQUE KEY (email),
-    CONSTRAINT admins_unique_un UNIQUE KEY (username)
+    id BIGSERIAL PRIMARY KEY,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    is_enabled BOOLEAN NOT NULL,
+    account_non_expired BOOLEAN NOT NULL,
+    account_non_locked BOOLEAN NOT NULL,
+    credentials_non_expired BOOLEAN NOT NULL
 );
 
 CREATE TABLE projects (
-    id BIGINT AUTO_INCREMENT NOT NULL,
-    title_esp VARCHAR(255) NOT NULL,
-    title_en VARCHAR(255) NOT NULL,
+    id BIGSERIAL PRIMARY KEY,
+    title_esp VARCHAR(255) NOT NULL UNIQUE,
+    title_en VARCHAR(255) NOT NULL UNIQUE,
     description_esp TEXT NOT NULL,
     description_en TEXT NOT NULL,
     image VARCHAR(255) NOT NULL,
-    personal TINYINT(1) NOT NULL,
+    personal BOOLEAN NOT NULL,
     site VARCHAR(255) NOT NULL,
     code VARCHAR(255),
-    created_at DATETIME NOT NULL,
-    CONSTRAINT projects_pk PRIMARY KEY (id),
-    CONSTRAINT projects_unique_esp UNIQUE KEY (title_esp),
-    CONSTRAINT projects_unique_en UNIQUE KEY (title_en)
+    created_at TIMESTAMP NOT NULL
 );
 
 CREATE TABLE technologies (
-    id BIGINT AUTO_INCREMENT NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    icon VARCHAR(255) NOT NULL,
-    CONSTRAINT technologies_pk PRIMARY KEY (id),
-    CONSTRAINT technologies_unique UNIQUE KEY (name)
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL UNIQUE,
+    icon VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE project_technologies (
     project_id BIGINT NOT NULL,
     technology_id BIGINT NOT NULL,
-    CONSTRAINT project_technologies_pk PRIMARY KEY (project_id, technology_id),
-    CONSTRAINT project_technologies_projects_fk FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT project_technologies_technologies_fk FOREIGN KEY (technology_id) REFERENCES technologies(id) ON DELETE CASCADE ON UPDATE CASCADE
+    PRIMARY KEY (project_id, technology_id),
+    FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (technology_id) REFERENCES technologies(id) ON DELETE CASCADE ON UPDATE CASCADE
 );

@@ -4,6 +4,7 @@ import com.example.Portfolio.entities.Project;
 import com.example.Portfolio.entities.Technology;
 import com.example.Portfolio.utils.ErrorMessageUtils;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -31,7 +32,7 @@ public class ProjectDTO {
 
     private Set<TechnologyDTO> technologies = new HashSet<>();
 
-    @NotEmpty(message = ErrorMessageUtils.NOT_EMPTY)
+    @NotNull(message = ErrorMessageUtils.NOT_EMPTY)
     private Boolean personal;
 
     @NotEmpty(message = ErrorMessageUtils.NOT_EMPTY)
